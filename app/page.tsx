@@ -1,6 +1,6 @@
 "use client";
 
-import { StatusBadge } from "@/components/support-status-badge";
+import { StatusBadge } from "@/components/SupportStatusBadge";
 import {
   categoryLabels,
   sentimentLabels,
