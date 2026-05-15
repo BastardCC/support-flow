@@ -2,6 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 function textFromMessage(message: UIMessage): string {
@@ -153,13 +154,22 @@ export function SupportChatWidget() {
                 }}
                 className="min-h-[5rem] w-full resize-y rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm leading-snug text-zinc-900 outline-none ring-sky-500/0 transition placeholder:text-zinc-400 focus:border-sky-500/50 focus:ring-4 focus:ring-sky-500/15 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               />
-              <button
-                type="submit"
-                disabled={busy}
-                className="self-end rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:pointer-events-none disabled:opacity-50 dark:bg-sky-500 dark:hover:bg-sky-400"
-              >
-                Envoyer
-              </button>
+              <div className="flex gap-2 justify-end items-center">
+                <Link 
+                  href="/support" 
+                  className="text-sm text-zinc-500 dark:text-zinc-400 underline"
+                  onClick={() => setOpen(false)}
+                >
+                    Creer un ticket
+                </Link>
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="self-end rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:pointer-events-none disabled:opacity-50 dark:bg-sky-500 dark:hover:bg-sky-400"
+                >
+                  Envoyer
+                </button>
+              </div>
             </div>
           </form>
         </div>
