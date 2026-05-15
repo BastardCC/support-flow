@@ -1,67 +1,15 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react";
+import { StatusBadge } from "@/components/support-status-badge";
+import {
+  categoryLabels,
+  sentimentLabels,
+  urgencyLabels,
+} from "@/utils/support-labels";
+import { formatRelative } from "@/utils/format-relative";
 import { api } from "@/convex/_generated/api";
+import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
-
-const statusLabels: Record<string, string> = {
-  received: "Reçu",
-  analyzing: "Analyse…",
-  analyzed: "Analysé",
-  replied: "Répondu",
-  closed: "Clôturé",
-};
-
-const urgencyLabels = {
-  low: "Faible",
-  medium: "Moyenne",
-  high: "Élevée",
-  critical: "Critique",
-} as const;
-
-const categoryLabels = {
-  billing: "Facturation",
-  technical: "Technique",
-  complaint: "Réclamation",
-  information: "Information",
-  other: "Autre",
-} as const;
-
-const sentimentLabels = {
-  positive: "Positif",
-  neutral: "Neutre",
-  negative: "Négatif",
-} as const;
-
-function formatRelative(ts: number) {
-  const diff = Date.now() - ts;
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "À l’instant";
-  if (mins < 60) return `Il y a ${mins} min`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `Il y a ${hours} h`;
-  return new Intl.DateTimeFormat("fr-FR", {
-    dateStyle: "short",
-    timeStyle: "short",
-  }).format(new Date(ts));
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const base =
-    "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset";
-  const styles: Record<string, string> = {
-    received: `${base} bg-amber-500/10 text-amber-800 ring-amber-500/25 dark:text-amber-200`,
-    analyzing: `${base} bg-orange-500/10 text-orange-800 ring-orange-500/25 dark:text-orange-200 animate-pulse`,
-    analyzed: `${base} bg-sky-500/10 text-sky-800 ring-sky-500/25 dark:text-sky-200`,
-    replied: `${base} bg-emerald-500/10 text-emerald-800 ring-emerald-500/25 dark:text-emerald-200`,
-    closed: `${base} bg-zinc-500/10 text-zinc-700 ring-zinc-500/20 dark:text-zinc-300`,
-  };
-  return (
-    <span className={styles[status] ?? `${base} bg-zinc-500/10 text-zinc-600`}>
-      {statusLabels[status] ?? status}
-    </span>
-  );
-}
 
 export default function Home() {
   const [text, setText] = useState("");
