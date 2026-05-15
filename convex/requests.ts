@@ -1,4 +1,5 @@
 // convex/requests.ts
+import { api } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
@@ -18,10 +19,13 @@ export const createRequest = mutation({
       sentiment: "neutral",
       created_at: Date.now(),
     });
+    await ctx.scheduler.runAfter(0, api.llm.analyzeRequest, {
+      requestId,
+      text: args.text,
+    });
     return requestId;
   },
 });
-
 // Get all requests (for dashboard)
 export const getAllRequests = query({
   handler: async (ctx) => {
@@ -88,6 +92,25 @@ export const updateAnalysis = mutation({
       model_used: args.model_used,
       status: "analyzed",
       processed_at: Date.now(),
+      analysis_error: undefined,
+    });
+  },
+});
+
+/** Après échec LLM : reste en valeurs par défaut + message pour le tableau de bord */
+export const failAnalysis = mutation({
+  args: {
+    id: v.id("requests"),
+    message: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const truncated =
+      args.message.length > 2000
+        ? `${args.message.slice(0, 2000)}…`
+        : args.message;
+    await ctx.db.patch(args.id, {
+      status: "received",
+      analysis_error: truncated,
     });
   },
 });

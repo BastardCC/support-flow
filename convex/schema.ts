@@ -45,6 +45,8 @@ export default defineSchema({
     
     // Metadata
     model_used: v.optional(v.string()),
+    /** Renseigné si l’action LLM a échoué (diagnostic UI / logs métier) */
+    analysis_error: v.optional(v.string()),
     created_at: v.number(),
     processed_at: v.optional(v.number()),
     responded_at: v.optional(v.number()),
