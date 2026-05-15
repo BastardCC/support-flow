@@ -20,6 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../app/requests.ts"],
   "exclude": ["./_generated"]
 }
