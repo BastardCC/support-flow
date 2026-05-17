@@ -24,16 +24,6 @@ export const createRequest = mutation({
       requestId,
       text: args.text,
     });
-    await ctx.scheduler.runAfter(0, api.integrations.syncTicketToN8n, {
-      requestId,
-      customer_email: args.customer_email,
-      text: args.text,
-      status: "received",
-      urgency: "low",
-      category: "other",
-      sentiment: "neutral",
-      created_at,
-    });
     return requestId;
   },
 });

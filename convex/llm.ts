@@ -58,6 +58,26 @@ export const analyzeRequest = action({
         ...analysis,
         model_used: modelId,
       });
+
+      const doc = await ctx.runQuery(api.requests.getRequest, {
+        id: args.requestId,
+      });
+      if (doc) {
+        await ctx.scheduler.runAfter(0, api.integrations.syncTicketToN8n, {
+          requestId: doc._id,
+          customer_email: doc.customer_email,
+          text: doc.text,
+          status: doc.status,
+          urgency: doc.urgency,
+          category: doc.category,
+          sentiment: doc.sentiment,
+          created_at: doc.created_at,
+          processed_at: doc.processed_at,
+          model_used: doc.model_used,
+          suggested_response: doc.suggested_response,
+          analysis_error: doc.analysis_error,
+        });
+      }
     } catch (e) {
       await ctx.runMutation(api.requests.failAnalysis, {
         id: args.requestId,
