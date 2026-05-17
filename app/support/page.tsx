@@ -1,12 +1,5 @@
 "use client";
 
-import { StatusBadge } from "@/components/SupportStatusBadge";
-import {
-  categoryLabels,
-  sentimentLabels,
-  urgencyLabels,
-} from "@/utils/support-labels";
-import { formatRelative } from "@/utils/format-relative";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
@@ -16,7 +9,6 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const createRequest = useMutation(api.requests.createRequest);
-  const requests = useQuery(api.requests.getAllRequests);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

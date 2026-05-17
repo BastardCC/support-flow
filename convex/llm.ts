@@ -36,7 +36,8 @@ export const analyzeRequest = action({
           {
             role: "user",
             content: `Réponds uniquement avec un JSON valide (pas de markdown). 
-            Clés: urgency (low|medium|high|critical), 
+            Clés: 
+            urgency (low|medium|high|critical), 
             category (billing|technical|complaint|information|other), 
             sentiment (positive|neutral|negative), 
             suggested_response (réponse pro en français).

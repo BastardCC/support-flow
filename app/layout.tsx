@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { SupportChatWidget } from "@/components/SupportChatWidget";
+import { SupportNavbar } from "@/components/SupportNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ConvexClientProvider>
-          {children}
+          <SupportNavbar />
+          <main className="flex-1">{children}</main>
           <SupportChatWidget />
         </ConvexClientProvider>
       </body>
