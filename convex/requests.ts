@@ -10,6 +10,7 @@ export const createRequest = mutation({
     customer_email: v.string(),
   },
   handler: async (ctx, args) => {
+    const created_at = Date.now();
     const requestId = await ctx.db.insert("requests", {
       text: args.text,
       customer_email: args.customer_email,
@@ -17,11 +18,21 @@ export const createRequest = mutation({
       urgency: "low",
       category: "other",
       sentiment: "neutral",
-      created_at: Date.now(),
+      created_at,
     });
     await ctx.scheduler.runAfter(0, api.llm.analyzeRequest, {
       requestId,
       text: args.text,
+    });
+    await ctx.scheduler.runAfter(0, api.integrations.syncTicketToN8n, {
+      requestId,
+      customer_email: args.customer_email,
+      text: args.text,
+      status: "received",
+      urgency: "low",
+      category: "other",
+      sentiment: "neutral",
+      created_at,
     });
     return requestId;
   },
