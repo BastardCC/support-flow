@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Support Flow
 
-## Getting Started
+A small **practice** project for experimenting with **agentic workflows** (tool orchestration, automated decisions, integrations) in a **customer support** context.
 
-First, run the development server:
+This repo is not a finished product: it’s a learning playground for combining a real-time backend, LLMs, and external automations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What is it?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A **customer support** app: messaging / agent-style flows for handling user requests, with a backend layer and integration hooks.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Chatbot**: helps customers **when they run into issues** (LLM-assisted replies, streaming conversation).
+- **Ticket creation**: if **chat doesn’t resolve** the issue, users can **open a form** to **create a ticket** and escalate to the support team.
 
-## Learn More
+## Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+**Support page** — chat assistant and ticket form:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Support page: assistant and create ticket form](./app/assets/docs.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Spreadsheet** (e.g. via n8n _Append row_) — ticket stored with LLM-derived fields (urgency, category, sentiment, suggested reply):
 
-## Deploy on Vercel
+![Spreadsheet row for a support ticket](./app/assets/sheet.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Piece                                                         | Role                                                                                                                                                                       |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[Next.js](https://nextjs.org)**                             | Web UI and API routes (e.g. chat).                                                                                                                                         |
+| **[Convex](https://convex.dev)**                              | Real-time backend, data, and server-side functions.                                                                                                                        |
+| **[Vercel AI SDK](https://ai-sdk.dev)** + **`@ai-sdk/react`** | API side: `streamText`, UI message format, etc. React side: **ready-made hooks** (`useChat`, etc.) so you can wire up streaming chat without reinventing everything.       |
+| **[OpenRouter](https://openrouter.ai)**                       | Access to LLMs via an OpenAI-compatible API; here we use **free-tier models** (e.g. `openrouter/free` router or a `:free` variant) with an OpenRouter API key.             |
+| **[n8n](https://n8n.io)**                                     | Automation: for example, after a user **creates a ticket**, a workflow **appends a row** to a **spreadsheet** (e.g. Google Sheets) so support / ops can track the request. |
