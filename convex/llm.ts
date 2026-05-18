@@ -7,6 +7,7 @@ import { action } from "./_generated/server";
 import { api } from "./_generated/api";
 import { v } from "convex/values";
 
+// Schema for the LLM analysis
 const analysisSchema = z.object({
   urgency: z.enum(["low", "medium", "high", "critical"]),
   category: z.enum(["billing", "technical", "complaint", "information", "other"]),
@@ -14,6 +15,7 @@ const analysisSchema = z.object({
   suggested_response: z.string(),
 });
 
+// Analyse the customer request
 export const analyzeRequest = action({
   args: { requestId: v.id("requests"), text: v.string() },
   handler: async (ctx, args) => {

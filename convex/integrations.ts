@@ -27,7 +27,7 @@ const N = v.union(
   v.literal("negative"),
 );
 
-/** Convex env : N8N_WEBHOOK_URL (+ optionnel N8N_WEBHOOK_SECRET → Bearer). */
+// Sync the ticket to N8n
 export const syncTicketToN8n = action({
   args: {
     requestId: v.id("requests"),
